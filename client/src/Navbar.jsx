@@ -47,7 +47,7 @@ const Navbar = () => {
             {isAuthenticated ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/user">
+                  <Link className="nav-link" to="/">
                     Home
                   </Link>
                 </li>

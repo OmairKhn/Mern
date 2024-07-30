@@ -1,7 +1,9 @@
+
 .table1{
     margin-left: 20%;
     margin-top: 10px;
-    margin-right: 20%
+    margin-right: 20%;
+    
     
 }
 
@@ -11,3 +13,17 @@
     height: 30px;
     margin-left: 2px;
 }
+/* Overlay Blur Effect */
+.modal.show .modal-dialog {
+    backdrop-filter: blur(8px); /* Adjust the blur effect as needed */
+  }
+  
+  .modal-content {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background to enhance blur effect */
+  }
+  .tab_Header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }

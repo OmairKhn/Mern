@@ -8,8 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/crud", {
-  })
+.connect("mongodb://127.0.0.1:27017/crud", {
+})
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -22,18 +22,20 @@ app.get("/", (req, res) => {
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 })
-
 app.get("/getAllUsers", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 5;
+    const searchQuery = req.query.search || '';
 
-    const users = await UserModel.find()
+    const query = searchQuery ? { name: { $regex: searchQuery, $options: 'i' } } : {};
+
+    const users = await UserModel.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize)
       .exec();
-      
-    const count = await UserModel.countDocuments();
+
+    const count = await UserModel.countDocuments(query);
 
     res.json({
       users,
@@ -44,7 +46,6 @@ app.get("/getAllUsers", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 app.get('/getUser/:id', (req, res) => {
   const id = req.params.id;
   UserModel.findById(id)

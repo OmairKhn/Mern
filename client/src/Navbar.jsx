@@ -61,6 +61,11 @@ const Navbar = () => {
                     Sign Out
                   </Link>
                 </li>
+                {/* <li className="nav-item">
+                  <Link onClick={signOut} className="nav-link" to="/login">
+                    Sign Out
+                  </Link>
+                </li> */}
               </>
             ) : (
               <li className="nav-item">

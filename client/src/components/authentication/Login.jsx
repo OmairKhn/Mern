@@ -1,74 +1,41 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+// Login.js
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../FirebaseConfig";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setEmail("");
-      setPassword("");
-      setError("");
-      navigate("/user");
+      navigate('/'); 
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100"
-   >
+    <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="bg-light p-4 border border-secondary rounded shadow">
-        <div className="mb-4 text-center">
-          <h2 className="text-primary">Login</h2>
-        </div>
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="password"
-              placeholder="Password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <button
-              type="submit"
-              className="btn btn-primary w-100"
-            >
-              Login
-            </button>
-          </div>
+        <h2 className="text-center text-primary">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <input type="email" placeholder="Email" className="form-control mb-3"
+            onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" className="form-control mb-3"
+            onChange={(e) => setPassword(e.target.value)} required />
+          <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
         {error && <p className="text-danger">{error}</p>}
-        <div>
-          <h2 className="text-center">
-            Don't have an account? <Link className="text-primary" to="/signup">Signup</Link>
-          </h2>
-        </div>
+        <p>Don't have an account? <Link to="/signup">Signup</Link></p>
       </div>
     </div>
   );
-};
+}
 
 export default Login;

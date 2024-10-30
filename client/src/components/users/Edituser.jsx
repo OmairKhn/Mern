@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const EditUser = ({
+export const EditUser = ({
   show,
   onClose,
   editedName,
@@ -11,14 +11,35 @@ const EditUser = ({
   setEditedAge,
   handleEditSubmit,
 }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   if (!show) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" role="dialog">
-      <div className="modal-dialog" role="document">
+    <div className="modal  d-block"  >
+      <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Edit User</h5>
+            <button
+              type="button"
+              className="close"
+              onClick={onClose}
+              aria-label="Close"
+            >
+              <span>&times;</span>
+            </button>
           </div>
           <div className="modal-body">
             <form onSubmit={handleEditSubmit}>
@@ -52,16 +73,10 @@ const EditUser = ({
                   onChange={(e) => setEditedAge(e.target.value)}
                 />
               </div>
-              <button type="submit" className="btn btn-primary">
-                Save Changes
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary mx-2">Save Changes</button>
+                <button type="button" className="btn btn-secondary mx-2" onClick={onClose}>Cancel</button>
+              </div>
             </form>
           </div>
         </div>
@@ -69,5 +84,3 @@ const EditUser = ({
     </div>
   );
 };
-
-export default EditUser;
